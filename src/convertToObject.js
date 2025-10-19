@@ -1,26 +1,21 @@
 'use strict';
 
+'use strict';
+
 function convertToObject(sourceString) {
-  const result = {};
-  const lines = sourceString.split(';');
+  return sourceString
+    .split(';')
+    .map((line) => line.trim())
+    .filter((line) => line)
+    .reduce((result, line) => {
+      const [key, value] = line.split(':');
 
-  for (let line of lines) {
-    line = line.trim();
+      if (key && value) {
+        result[key.trim()] = value.trim();
+      }
 
-    if (!line) {
-      continue;
-    }
-
-    const [key, value] = line.split(':');
-
-    if (!key || !value) {
-      continue;
-    }
-
-    result[key.trim()] = value.trim();
-  }
-
-  return result;
+      return result;
+    }, {});
 }
 
 module.exports = convertToObject;
